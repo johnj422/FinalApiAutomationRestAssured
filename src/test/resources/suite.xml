@@ -6,7 +6,7 @@
 
     <test thread-count="1" name="Test">
         <classes>
-            <class name="BankTransactionTest"/>
+            <class name="org.globantBank.tests.BankTransactionTest"/>
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
