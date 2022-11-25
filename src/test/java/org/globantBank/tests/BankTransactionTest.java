@@ -18,13 +18,12 @@ public class BankTransactionTest {
 
     public void apiSizeTest(String url){
         Logger.info("Retrieving data from API...");
-        ApiHelpers.ConvertToObject(url);
+        ApiHelpers.convertToObject(url);
         Logger.info("Actual number of transactions = " + ApiHelpers.getListSize());
-        Logger.info("Cleaning transactions if necessary");
-        ApiHelpers.wipeTransactions(url);
-        ApiHelpers.ConvertToObject(url);
-        Logger.info("Number of transactions after cleaning = " + ApiHelpers.getListSize());
-        softAssert.assertEquals(ApiHelpers.getListSize(),0, "The list should now be empty");
+        Logger.info("Deleting transactions if necessary");
+        softAssert.assertEquals(ApiHelpers.wipeTransactions(url), 0, "Total transactions should be 0");
+        Logger.info("Transactions after cleaning = " + ApiHelpers.getListSize());
+        Logger.info("*** Test one completed *** \n");
         softAssert.assertAll();
     }
 
@@ -38,13 +37,13 @@ public class BankTransactionTest {
 
     public void dataInitializerTest(String url){
         Logger.info("Creating transactions");
-        ApiHelpers.initializeData(url);
-        Logger.info("Retrieving data from API...");
-        ApiHelpers.ConvertToObject(url);
+        softAssert.assertEquals(ApiHelpers.initializeData(url), 10, "Should create 10 transactions");
         Logger.info("Transactions created = " + ApiHelpers.getListSize());
-        softAssert.assertEquals(ApiHelpers.getListSize(), 10, "Should be 10 transactions created");
-        ApiHelpers.sendPost(url);
-        softAssert.assertEquals(ApiHelpers.testFunction(), "test Function", "Expect matches");
+        Logger.info("Posting transaction");
+        softAssert.assertEquals(ApiHelpers.sendPost(url), "Post successfully sent", "Should be successful if email does not exist");
+        Logger.info("Posting transaction with the same email");
+        softAssert.assertEquals(ApiHelpers.sendPost(url), "Email already exists", "Should not post anything as email exists");
+        Logger.info("*** Test Two completed *** \n");
         softAssert.assertAll();
     }
 

@@ -15,6 +15,8 @@ import static io.restassured.RestAssured.*;
 
 public class ApiHelpers {
 
+    static List<BankTransactionPojo> transactions;
+
     /**
      *
      * Then receives a Json Sting from API server and converts it into a List of Java Objects
@@ -22,8 +24,7 @@ public class ApiHelpers {
      * @Parameters Url received from test params.
      *
      */
-    static List<BankTransactionPojo> transactions;
-    public static void ConvertToObject(String url) {
+    public static void convertToObject(String url) {
         baseURI = url;
         RequestSpecification httpRequest = RestAssured.given();
         Response response = httpRequest.get();
@@ -40,7 +41,7 @@ public class ApiHelpers {
      * Retrieves data from API, if there is any transaction, it wipes everything to leaves it blank.
      * @param url From API.
      */
-    public static void wipeTransactions(String url) {
+    public static int wipeTransactions(String url) {
         if(transactions.size() > 0){
             for(BankTransactionPojo transaction : transactions){
                 given().
@@ -50,14 +51,15 @@ public class ApiHelpers {
                         statusCode(HttpStatus.SC_OK);
             } given().
                     get(url);
-        }
+            convertToObject(url);
+        }return transactions.size();
     }
 
     /**
      * Creates the number of transactions specified by the given number.
      * @param url From API.
      */
-    public static void initializeData(String url){
+    public static int initializeData(String url){
         int transactionsToBeCreated = 10;
         while(transactionsToBeCreated > 0){
             given().
@@ -66,6 +68,8 @@ public class ApiHelpers {
                     post(url);
             transactionsToBeCreated--;
         }
+            convertToObject(url);
+            return transactions.size();
 
     }
 
@@ -85,27 +89,26 @@ public class ApiHelpers {
      * Sends a transaction post if the email hasn't already been registered.
      * @param url From API.
      */
-    public static void sendPost(String url){
+    public static String sendPost(String url){
 
         BankTransactionPojo transactionToSend = new BankTransactionPojo("test@gmail.com");
+        String response ="";
 
         if (!isEmailCreated(transactionToSend)){
             given().
                     contentType(ContentType.JSON).
                     body(transactionToSend).
                     post(url);
+            convertToObject(url);
+            response = "Post successfully sent";
         }else{
 
-            System.out.println("Email already exists");
+            response = "Email already exists";
         }
+        return response;
     }
 
     public static List<BankTransactionPojo> getTransactions() {
         return transactions;
-    }
-
-    public static String testFunction() {
-        String response = "testFunction";
-        return response;
     }
 }
