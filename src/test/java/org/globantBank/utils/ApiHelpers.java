@@ -53,13 +53,5 @@ public class ApiHelpers {
             System.out.println("Transaction Name: " + transaction.getName());
         }
     }
-    public static String getApiSize(String url) {
 
-        return given().
-                    get(url).
-                then().
-                    extract().
-                    jsonPath().
-                    getString("count");
-    }
 }
