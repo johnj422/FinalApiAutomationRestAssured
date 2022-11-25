@@ -28,11 +28,24 @@ public class BankTransactionTest {
         softAssert.assertAll();
     }
 
+    /**
+     *  Initialize the POJO with 10 random data (Use the minimal requirements). Also make a code verification
+     *  for avoiding duplicate email accounts. Then perform the POST request.
+     * @param url From API
+     */
     @Test(testName = "Test Two", priority = 2)
     @Parameters({"url"})
 
     public void dataInitializerTest(String url){
-        Logger.info("Second");
+        Logger.info("Creating transactions");
+        ApiHelpers.initializeData(url);
+        Logger.info("Retrieving data from API...");
+        ApiHelpers.ConvertToObject(url);
+        Logger.info("Transactions created = " + ApiHelpers.getListSize());
+        softAssert.assertEquals(ApiHelpers.getListSize(), 10, "Should be 10 transactions created");
+        ApiHelpers.sendPost(url);
+        softAssert.assertEquals(ApiHelpers.testFunction(), "test Function", "Expect matches");
+        softAssert.assertAll();
     }
 
 }
