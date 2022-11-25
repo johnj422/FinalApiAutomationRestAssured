@@ -1,25 +1,15 @@
 package org.globantBank.tests;
 
-import org.globantBank.pojo.BankTransactionPojo;
-import org.globantBank.utils.Helpers;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.globantBank.utils.ApiHelpers;
+import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 import org.tinylog.Logger;
 
-import java.net.MalformedURLException;
-import java.util.List;
-import static org.hamcrest.Matchers.*;
+public class BankTransactionTest extends BaseTest {
 
-import static io.restassured.RestAssured.*;
+    SoftAssert softAssert = new SoftAssert();
 
-public class BankTransactionTest {
 
-    @Parameters({"url"})
 
    /* @Test
     public void testInfo(String url){
@@ -33,25 +23,33 @@ public class BankTransactionTest {
                response.prettyPrint();
 
     }*/
-/*    @Test
-    public void JsonPathUsages(String url) throws MalformedURLException
-    {
-        baseURI = url;
-        RequestSpecification httpRequest = RestAssured.given();
-        Response response = httpRequest.get();
-
-        JsonPath jsonPathEvaluator = response.jsonPath();
-
-        List<BankTransactionPojo> transactions = jsonPathEvaluator.getList("transactions", BankTransactionPojo.class);
-
-        for(BankTransactionPojo transaction : transactions){
-            System.out.println("Transaction Name: " + transaction.getName());
-        }
-
+   /* @Test(priority = 1)
+    @Parameters({"url"})
+    public void endPointValidation(String url){
+        given().
+                get(url).
+        then().
+                assertThat().
+                statusCode(HttpStatus.SC_OK);
     }*/
-    @Test
-    public void initialTest(String url){
-        Helpers.ConvertToObject(url);
+
+    /**
+     * Verify the Endpoint is empty(If it has any data use the DELETE request to clean and leave empty)
+     * @param url
+     */
+    @Test(testName = "Test One", priority = 1)
+    @Parameters({"url"})
+
+    public void apiSizeTest(String url){
+        Logger.info("Retrieving data from API...");
+        ApiHelpers.ConvertToObject(url);
+        Logger.info("Actual number of transactions = " + ApiHelpers.getListSize());
+        Logger.info("Cleaning transactions if necessary");
+        ApiHelpers.wipeTransactions(url);
+        ApiHelpers.ConvertToObject(url);
+        Logger.info("Number of transactions after cleaning = " + ApiHelpers.getListSize());
+        softAssert.assertEquals(ApiHelpers.getListSize(),0);
+        softAssert.assertAll();
     }
 
 }
