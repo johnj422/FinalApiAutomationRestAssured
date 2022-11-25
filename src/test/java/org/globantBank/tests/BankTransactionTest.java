@@ -18,21 +18,33 @@ public class BankTransactionTest {
 
     public void apiSizeTest(String url){
         Logger.info("Retrieving data from API...");
-        ApiHelpers.ConvertToObject(url);
+        ApiHelpers.convertToObject(url);
         Logger.info("Actual number of transactions = " + ApiHelpers.getListSize());
-        Logger.info("Cleaning transactions if necessary");
-        ApiHelpers.wipeTransactions(url);
-        ApiHelpers.ConvertToObject(url);
-        Logger.info("Number of transactions after cleaning = " + ApiHelpers.getListSize());
-        softAssert.assertEquals(ApiHelpers.getListSize(),0, "The list should now be empty");
+        Logger.info("Deleting transactions if necessary");
+        softAssert.assertEquals(ApiHelpers.wipeTransactions(url), 0, "Total transactions should be 0");
+        Logger.info("Transactions after cleaning = " + ApiHelpers.getListSize());
+        Logger.info("*** Test one completed *** \n");
         softAssert.assertAll();
     }
 
+    /**
+     *  Initialize the POJO with 10 random data (Use the minimal requirements). Also make a code verification
+     *  for avoiding duplicate email accounts. Then perform the POST request.
+     * @param url From API
+     */
     @Test(testName = "Test Two", priority = 2)
     @Parameters({"url"})
 
     public void dataInitializerTest(String url){
-        Logger.info("Second");
+        Logger.info("Creating transactions");
+        softAssert.assertEquals(ApiHelpers.initializeData(url), 10, "Should create 10 transactions");
+        Logger.info("Transactions created = " + ApiHelpers.getListSize());
+        Logger.info("Posting transaction");
+        softAssert.assertEquals(ApiHelpers.sendPost(url), "Post successfully sent", "Should be successful if email does not exist");
+        Logger.info("Posting transaction with the same email");
+        softAssert.assertEquals(ApiHelpers.sendPost(url), "Email already exists", "Should not post anything as email exists");
+        Logger.info("*** Test Two completed *** \n");
+        softAssert.assertAll();
     }
 
 }

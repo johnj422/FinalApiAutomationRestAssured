@@ -27,6 +27,10 @@ public class BankTransactionPojo {
         this.id = id;
     }
 
+    public BankTransactionPojo(String email) {
+        this.email = email;
+    }
+
     public BankTransactionPojo() {
     }
 
@@ -112,17 +116,18 @@ public class BankTransactionPojo {
 
     @Override
     public String toString() {
-        return "pojo.BankTransaction{" +
-                "name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", accountNumber='" + accountNumber + '\'' +
-                ", amount='" + amount + '\'' +
-                ", transactionType='" + transactionType + '\'' +
-                ", email='" + email + '\'' +
-                ", active=" + active +
-                ", country='" + country + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", id='" + id + '\'' +
+        return "" + '\n' +
+                "{" + '\n' +
+                "\"name\":\"" + name + "\""  + "," + '\n' +
+                "\"lastName\":\"" + lastName + "\""  + "," + '\n' +
+                "\"accountNumber\":\"" + accountNumber + "\""  + "," + '\n' +
+                "\"amount\":\"" + amount + "\""  + "," + '\n' +
+                "\"transactionType\":\"" + transactionType + "\""  + "," + '\n' +
+                "\"email\":\"" + email + "\""  + "," + '\n' +
+                "\"active\":\"" + active + "\""  + "," + '\n' +
+                "\"country\":\"" + country + "\""  + "," + '\n' +
+                "\"telephone\":\"" + telephone + "\""  + "," + '\n' +
+                "\"id\":\"" + id + "\""  + "," + '\n' +
                 '}';
     }
 }
