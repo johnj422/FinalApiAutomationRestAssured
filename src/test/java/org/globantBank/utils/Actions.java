@@ -13,7 +13,7 @@ import java.util.List;
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.*;
 
-public class ApiHelpers {
+public class Actions {
 
     /**
      * A Constant to use the Url from API endpoint previously set in ApiUrl class.
