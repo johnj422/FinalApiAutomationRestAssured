@@ -101,20 +101,24 @@ public class Actions {
     public static String sendPost(){
 
         BankTransactionPojo transactionToSend = new BankTransactionPojo("test@gmail.com");
-        String response;
+        String result;
 
         if (!isEmailCreated(transactionToSend)){
-            given().
+            Response response = given().
                     contentType(ContentType.JSON).
                     body(transactionToSend).
                     post(url);
+                    response.getStatusCode();
+            if(response.getStatusCode() != 200){
+                result = "Post failed";
+            }
+            result = "Post successfully sent";
             convertToObject();
-            response = "Post successfully sent";
         }else{
 
-            response = "Email already exists";
+            result = "Email already exists";
         }
-        return response;
+        return result;
     }
 
     /**
