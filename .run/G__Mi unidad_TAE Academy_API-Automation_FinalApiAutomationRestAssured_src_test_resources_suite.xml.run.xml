@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="G:/Mi unidad/TAE Academy/API-Automation/FinalApiAutomationRestAssured/src/test/resources/suite.xml" type="TestNG" nameIsGenerated="true">
-    <module name="FinalApiAutomationRestAssured" />
     <shortenClasspath name="NONE" />
     <useClassPathOnly />
     <option name="SUITE_NAME" value="$PROJECT_DIR$/src/test/resources/suite.xml" />
@@ -11,6 +10,9 @@
     <option name="TEST_OBJECT" value="SUITE" />
     <option name="PARAMETERS" value="" />
     <option name="OUTPUT_DIRECTORY" value="" />
+    <option name="TEST_SEARCH_SCOPE">
+      <value defaultName="wholeProject" />
+    </option>
     <option name="PROPERTIES_FILE" value="" />
     <properties />
     <listeners />

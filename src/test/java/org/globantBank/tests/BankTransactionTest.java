@@ -15,14 +15,13 @@ public class BankTransactionTest {
      * @param url From API
      */
     @Test(testName = "Test One", priority = 1)
-    @Parameters({"url"})
 
-    public void apiSizeTest(String url) {
+    public void apiSizeTest() {
         Logger.info("Retrieving data from API...");
-        ApiHelpers.convertToObject(url);
+        ApiHelpers.convertToObject();
         Logger.info("Actual number of transactions = " + ApiHelpers.getListSize());
         Logger.info("Deleting transactions if necessary");
-        softAssert.assertEquals(ApiHelpers.wipeTransactions(url), 0, "Total transactions should be 0");
+        softAssert.assertEquals(ApiHelpers.wipeTransactions(), 0, "Total transactions should be 0");
         Logger.info("Transactions after cleaning = " + ApiHelpers.getListSize());
         Logger.info("*** Test one completed *** \n");
         softAssert.assertAll();
@@ -35,17 +34,16 @@ public class BankTransactionTest {
      * @param url From API
      */
     @Test(testName = "Test Two", priority = 2)
-    @Parameters({"url"})
 
-    public void dataInitializerTest(String url) {
+    public void dataInitializerTest() {
         Logger.info("Creating transactions");
-        softAssert.assertEquals(ApiHelpers.initializeData(url), 10, "Should create 10 transactions");
+        softAssert.assertEquals(ApiHelpers.initializeData(), 10, "Should create 10 transactions");
         Logger.info("Transactions created = " + ApiHelpers.getListSize());
         Logger.info("Posting transaction");
-        softAssert.assertEquals(ApiHelpers.sendPost(url), "Post successfully sent", "Should be " +
+        softAssert.assertEquals(ApiHelpers.sendPost(), "Post successfully sent", "Should be " +
                 "successful if email does not exist");
         Logger.info("Posting transaction with the same email");
-        softAssert.assertEquals(ApiHelpers.sendPost(url), "Email already exists", "Should not post " +
+        softAssert.assertEquals(ApiHelpers.sendPost(), "Email already exists", "Should not post " +
                 "anything as email exists");
         Logger.info("*** Test Two completed *** \n");
         softAssert.assertAll();
@@ -57,11 +55,10 @@ public class BankTransactionTest {
      * @param url From API
      */
     @Test(testName = "Test Tree", priority = 3)
-    @Parameters({"url"})
 
-    public void validateDuplicatedEmails(String url) {
+    public void validateDuplicatedEmails() {
         Logger.info("Validating duplicated emails");
-        softAssert.assertEquals(ApiHelpers.validateEmailDuplication(url), ApiHelpers.getListSize(), "Unique " +
+        softAssert.assertEquals(ApiHelpers.validateEmailDuplication(), ApiHelpers.getListSize(), "Unique " +
                 "emails should match with Number of transactions");
         Logger.info("*** Test Tree completed *** \n");
         softAssert.assertAll();
@@ -72,11 +69,10 @@ public class BankTransactionTest {
      * @param url Fro, API.
      */
     @Test(testName = "Test Four", priority = 4)
-    @Parameters({"url"})
 
-    public void UpdateAccount(String url) {
+    public void UpdateAccount() {
         Logger.info("Updating account");
-        softAssert.assertEquals(ApiHelpers.updateAccuntNumber(url), 200, "Code 200 should be received");
+        softAssert.assertEquals(ApiHelpers.updateAccountNumber(), 200, "Code 200 should be received");
         Logger.info("*** Test Four completed *** \n");
         softAssert.assertAll();
     }
