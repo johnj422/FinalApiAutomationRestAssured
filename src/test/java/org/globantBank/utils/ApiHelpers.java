@@ -15,6 +15,7 @@ import static io.restassured.RestAssured.*;
 
 public class ApiHelpers {
 
+
     static List<BankTransactionPojo> transactions;
 
     /**
@@ -110,5 +111,26 @@ public class ApiHelpers {
 
     public static List<BankTransactionPojo> getTransactions() {
         return transactions;
+    }
+
+    /**
+     * Rtreives the information from API, extracts all emails from transactions
+     * @param url From API.
+     * @return An int number of unique emails.
+     */
+    public static int validateEmailDuplication(String url){
+        convertToObject(url);
+        return (int) transactions.stream().map(BankTransactionPojo::getEmail).distinct().count();
+    }
+
+    public static int updateAccuntNumber(String url){
+        int idToUpdate = 1;
+        String accountNumberToSend = "12345678";
+        int response;
+
+        Response code = given().contentType(ContentType.JSON).
+                                body("{" + "\"accountNumber\":\"" + accountNumberToSend + "\"}").
+                                put(url + idToUpdate);
+        return response = code.getStatusCode();
     }
 }
